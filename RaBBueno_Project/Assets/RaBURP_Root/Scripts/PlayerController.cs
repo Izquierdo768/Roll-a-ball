@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     public GameObject respawnPoint; //Ref al objeto que marca el punto de respawn (transform)
     public float fallLimit; //Valor en -y que al alcanzarlo se ejecutará el respawn
 
+    public bool En_el_Tobogan;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +35,15 @@ public class PlayerController : MonoBehaviour
         isGrounded = true;
     }
 
+    //Controlar si estas o no en contacto con el tobogan para reaparecer
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Tobogan"))
+        {
+            Respawn();
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -40,14 +51,13 @@ public class PlayerController : MonoBehaviour
         horInput = Input.GetAxis("Horizontal");
         verInput = Input.GetAxis("Vertical");
         Jump();
-        if (transform.position.y < fallLimit) { Respawn(); }
     }
 
     private void FixedUpdate()
     {
         //Aquí se codea/llama a acciones que dependan de la física CONSTANTE
-        VelocityMove();
-        //ForceMove();
+        //VelocityMove();
+        ForceMove();
     }
 
     private void OnCollisionEnter(Collision collision)
