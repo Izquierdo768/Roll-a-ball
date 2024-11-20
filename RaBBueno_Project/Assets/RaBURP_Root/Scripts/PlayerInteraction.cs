@@ -20,7 +20,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (points >= winPoints)
         {
-            winGoal.SetActive(true);
+            //winGoal.SetActive(true);
         }
         
     }

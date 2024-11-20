@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [Header("General References")]
     public Rigidbody playerRb; //Almacén del Rigidbody del player. Me permite moverlo
     public AudioSource playerAudio; //Referencia al reproductor de sonidos del player
+    public float puntosBackflip; //Almacena los puntos que consigues haciendo backflips
 
     [Header("Movement Variables")]
     public float speed;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [Header("Jump Variables")]
     public float jumpForce;
     public bool isGrounded;
+    public bool hasSaltado; //controla si el motivo por el que estas en el aire es un salto o no
 
     [Header("Sound Library")]
     public AudioClip[] soundLibrary; //"Estantería" de sonidos del player
@@ -35,7 +37,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = true;
     }
 
-    //Controlar si estas o no en contacto con el tobogan para reaparecer
+    //Controlar si estas o no en contacto con el tobogan para reaparecer o Hacer Backflips
 
     private void OnTriggerExit(Collider other)
     {
@@ -51,6 +53,10 @@ public class PlayerController : MonoBehaviour
         horInput = Input.GetAxis("Horizontal");
         verInput = Input.GetAxis("Vertical");
         Jump();
+        if (isGrounded == false && hasSaltado == false)
+        {
+            puntosBackflip = puntosBackflip + 0.1f;  
+        }
     }
 
     private void FixedUpdate()
@@ -65,6 +71,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            hasSaltado = false;
         }
     }
 
@@ -96,11 +103,13 @@ public class PlayerController : MonoBehaviour
             playerAudio.PlayOneShot(soundLibrary[0]);
             isGrounded = false;
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            hasSaltado = true;
         }
     }
 
     void Respawn()
     {
+        playerRb.velocity = new Vector3(0, 0, 0);
         playerAudio.PlayOneShot(soundLibrary[1]);
         //Cambia la posición del player por la posición del punto de respawn
         transform.position = respawnPoint.transform.position;

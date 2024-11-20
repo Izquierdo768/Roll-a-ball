@@ -8,6 +8,8 @@ public class Rotator : MonoBehaviour
     public float speedY;
     public float speedZ;
 
+    //Controlan el modelo de la comida
+
     // Start is called before the first frame update
     void Start()
     {
