@@ -55,7 +55,8 @@ public class PlayerController : MonoBehaviour
         Jump();
         if (isGrounded == false && hasSaltado == false)
         {
-            puntosBackflip = puntosBackflip + 0.1f;  
+            puntosBackflip = puntosBackflip + 0.1f;
+            Debug.Log(puntosBackflip);
         }
     }
 
