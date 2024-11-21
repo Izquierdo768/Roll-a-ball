@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     public Rigidbody playerRb; //Almacén del Rigidbody del player. Me permite moverlo
     public AudioSource playerAudio; //Referencia al reproductor de sonidos del player
     public float puntosBackflip; //Almacena los puntos que consigues haciendo backflips
+    public int points; //Estos son los puntos de los pickup
+    public int puntosTotales; //La suma de los puntos por pickUp y los puntos totales
+    public GameObject winGoal; //Referencia al objeto que representa la meta
 
     [Header("Movement Variables")]
     public float speed;
@@ -26,7 +29,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Respawn Configuration")]
     public GameObject respawnPoint; //Ref al objeto que marca el punto de respawn (transform)
-    public float fallLimit; //Valor en -y que al alcanzarlo se ejecutará el respawn
 
     public bool En_el_Tobogan;
 
@@ -36,16 +38,7 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = true;
     }
-
-    //Controlar si estas o no en contacto con el tobogan para reaparecer o Hacer Backflips
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Tobogan"))
-        {
-            Respawn();
-        }
-    }
+  
     // Update is called once per frame
     void Update()
     {
@@ -76,11 +69,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground")) 
+        { 
+            isGrounded = false;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PickUp"))
         {
             playerAudio.PlayOneShot(soundLibrary[2]);
+            points += 1;
+            other.gameObject.SetActive(false); //Apaga el objeto con el que he chocado
+            //Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Tobogan"))
+        {
+            Respawn();
         }
     }
 
@@ -114,7 +123,8 @@ public class PlayerController : MonoBehaviour
         playerAudio.PlayOneShot(soundLibrary[1]);
         //Cambia la posición del player por la posición del punto de respawn
         transform.position = respawnPoint.transform.position;
+        puntosBackflip = 0;
+        isGrounded = true;
+        
     }
-
-
 }
