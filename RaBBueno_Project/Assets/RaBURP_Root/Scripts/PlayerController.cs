@@ -139,6 +139,7 @@ public class PlayerController : MonoBehaviour
         puntosBackflip = 0;
         puntosTotales = 0;
         isGrounded = true;
-        
+        SceneManager.LoadScene(0);
+
     }
 }
