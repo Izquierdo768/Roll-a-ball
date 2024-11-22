@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class PlayerController : MonoBehaviour
     public float puntosBackflip; //Almacena los puntos que consigues haciendo backflips
     public int points; //Estos son los puntos de los pickup
     public int puntosTotales; //La suma de los puntos por pickUp y los puntos totales
-    public GameObject winGoal; //Referencia al objeto que representa la meta
+    public TMP_Text pointsText;
 
     [Header("Movement Variables")]
     public float speed;
@@ -51,6 +53,8 @@ public class PlayerController : MonoBehaviour
             puntosBackflip = puntosBackflip + 0.1f;
             Debug.Log(puntosBackflip);
         }
+
+        pointsText.text = "Points: " + puntosTotales.ToString();
     }
 
     private void FixedUpdate()
@@ -67,6 +71,9 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             hasSaltado = false;
         }
+        playerAudio.PlayOneShot(soundLibrary[0]);
+        puntosTotales = ((int)(puntosBackflip + puntosTotales));
+        puntosBackflip = 0;
     }
 
     private void OnCollisionExit(Collision collision)
@@ -82,10 +89,16 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("PickUp"))
         {
             playerAudio.PlayOneShot(soundLibrary[2]);
-            points += 1;
+            points += 5;
+            puntosTotales = points + puntosTotales;
             other.gameObject.SetActive(false); //Apaga el objeto con el que he chocado
-            //Destroy(other.gameObject);
         }
+
+        if (other.gameObject.CompareTag("Goal"))
+        {
+            SceneManager.LoadScene(2);
+        }
+
 
         if (other.gameObject.CompareTag("Tobogan"))
         {

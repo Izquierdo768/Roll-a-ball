@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/RaBURP_Root/Scenes/MainMenu.unity
+    guid: d6e4a0e2cfdefcd4a9ce295c98f4784a
+  - enabled: 1
+    path: Assets/RaBURP_Root/Scenes/NoeTest.unity
+    guid: a738bfc489dc12045a4dac1d2cdf3b50
+  - enabled: 1
+    path: Assets/RaBURP_Root/Scenes/WinScene.unity
+    guid: 4ca391c252e0616408ef94b1ca5e159c
   m_configObjects: {}
