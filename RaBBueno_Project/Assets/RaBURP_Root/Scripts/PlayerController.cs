@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviour
         //Cambia la posición del player por la posición del punto de respawn
         transform.position = respawnPoint.transform.position;
         puntosBackflip = 0;
+        puntosTotales = 0;
         isGrounded = true;
         
     }
